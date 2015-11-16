@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<title>RealtimeVedeo</title>
+		<meta charset="utf-8">
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	</head>
+	<body>
+		<form name="search" action="Search.php" method="post">
+			<input type="hidden" name="word" value="">
+		</form>
+		<input type="button" value="音声認識開始" onclick="recognition.start();"/>
+		<input type="button" value="音声認識終了" onclick="recognition.stop();"/>
+		<div id="state">停止中</div>
+		<div id="recognizedText"></div>
+	</body>
+</html>
+
+<script>
+var recognition = new webkitSpeechRecognition();
+recognition.lang = "ja-JP";
+
+//話し声の認識中
+recognition.onsoundstart = function(){
+	$("#state").text("認識中");
+};
+//マッチする認識なし
+recognition.onnomatch = function(){
+	$("#recognizedText").text("もう一度試してください");
+};
+//エラー
+recognition.onerror = function(){
+	$("#recognizedText").text("エラー");
+};
+//話し声の認識終了
+recognition.onsoundend = function(){
+	$("#state").text("停止中");
+};
+//認識が終了したときのイベント
+recognition.onresult = function(event){
+	var results = event.results;
+	for(var i = event.resultIndex; i<results.length; i++){
+		$("#recognizedText").text(results[i][0].transcript);
+	}
+	document.search.word.value= $("#recognizedText")
+	document.searcn.submit();
+};
+
+</script>
+
