@@ -1,12 +1,13 @@
 <html>
 	<head>
-		<title>RealtimeVedeo</title>
+		<title>RealtimeVideo</title>
 		<meta charset="utf-8">
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	</head>
 	<body>
-		<form name="search" action="Search.php" method="post">
-			<input type="hidden" name="word" value="">
+		<form name="search" action="Search.php" method="get">
+			<input type="hidden" name="word" id="word" value="ご飯">
+			<input type="submit" value="submit">
 		</form>
 		<input type="button" value="音声認識開始" onclick="recognition.start();"/>
 		<input type="button" value="音声認識終了" onclick="recognition.stop();"/>
@@ -18,6 +19,8 @@
 <script>
 var recognition = new webkitSpeechRecognition();
 recognition.lang = "ja-JP";
+recognition.interimResults = true;
+recognition.continuous = true;
 
 //話し声の認識中
 recognition.onsoundstart = function(){
@@ -39,9 +42,14 @@ recognition.onsoundend = function(){
 recognition.onresult = function(event){
 	var results = event.results;
 	for(var i = event.resultIndex; i<results.length; i++){
-		$("#recognizedText").text(results[i][0].transcript);
+		if(results[i].isFinal){
+			$("#recognizedText").text(results[i][0].transcript);
+		}else{
+			$("#recognizedText").text(results[i][0].transcript);
+		}
+
 	}
-	document.search.word.value= $("#recognizedText")
+	document.search.word.value = results[0][0].transcript;
 	document.searcn.submit();
 };
 

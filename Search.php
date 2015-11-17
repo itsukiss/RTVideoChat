@@ -1,11 +1,13 @@
 <html>
 <head>
 <title>Bing</title>
+<meta charset="utf-8">
 </head>
 <body>
 <?php 
-// $query = $_POST['word'];
-$query = 'ご飯';
+$query = $_GET['word'];
+echo $query;
+//$query = 'ご飯';
 
 
 $accountKey = '5hj8WLaVWT33WCk04XwcZ0UFI8GLZLGuFXntSZUWwuA';
