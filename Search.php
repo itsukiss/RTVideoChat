@@ -21,7 +21,6 @@ $context = stream_context_create( array(
 
 $request = $ServiceRootURL.'Web?$format=json&Query='.urlencode( '\''.$query.'\'' );
 $response = file_get_contents( $request, FALSE, $context);
-
 //header( 'Content-Type: application/json' );
 echo $response;
 
