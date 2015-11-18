@@ -21,8 +21,14 @@ $context = stream_context_create( array(
 
 $request = $ServiceRootURL.'Web?$format=json&Query='.urlencode( '\''.$query.'\'' );
 $response = file_get_contents( $request, FALSE, $context);
+$response = mb_convert_encoding($response,'UTF8','ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
+
+$arr = json_decode($response,true);
+$url = $arr["d"]["results"][0]["Url"];
 //header( 'Content-Type: application/json' );
-echo $response;
+//echo $response;
+$html = file_get_contents($url);
+echo $html;
 
 ?>
 </body>
