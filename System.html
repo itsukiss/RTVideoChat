@@ -6,8 +6,7 @@
 	</head>
 	<body>
 		<form name="search" action="Search.php" method="get">
-			<input type="hidden" name="word" id="word" value="ご飯">
-			<input type="submit" value="submit">
+			<input type="hidden" name="word" id="word" value="反応なし">
 		</form>
 		<input type="button" value="音声認識開始" onclick="recognition.start();"/>
 		<input type="button" value="音声認識終了" onclick="recognition.stop();"/>
@@ -44,13 +43,13 @@ recognition.onresult = function(event){
 	for(var i = event.resultIndex; i<results.length; i++){
 		if(results[i].isFinal){
 			$("#recognizedText").text(results[i][0].transcript);
+			document.search.submit();
 		}else{
 			$("#recognizedText").text(results[i][0].transcript);
 		}
 
 	}
 	document.search.word.value = results[0][0].transcript;
-	document.searcn.submit();
 };
 
 </script>
