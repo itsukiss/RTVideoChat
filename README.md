@@ -7,8 +7,17 @@
 
 ## 使うもの
 - WebRTC：P2Pのビデオ通話ライブラリ
+- SkyWay:：WebRTCを簡単に使うプラットフォーム（APIキーが必要）
 - WebSpeechAPI：音声認識しテキストに書き出すためのAPI
-- BingSearchAPI：単語をWeb検索するためのAPI
+- BingSearchAPI：単語をWeb検索するためのAPI（APIキーが必要）
+- jQuery：WebRTCとWebSpeechAPIの処理に使用
+- Ajax.prototype.js：web検索だけを更新するために使用
+- CSS：ページの3分割レイアウトに使用
+
+## 機能
+- ビデオチャット機能：P2Pで友人とビデオチャットできます。
+- テキスト書き出し機能：通話中の話をテキストに書き出します。
+- 用語検索機能：通話中に出てきたエンジニア用語を検索します。
 
 ## システム画像
 現在のシステムのスクリーンショットです。
@@ -24,3 +33,11 @@
 
 ## 該当するエンジニア用語
 サーバーサイド/クライアントサイド/フロントエンド/B to B/B to C/P2P/スニペット/WebRTC/インフラ/オープンデータ/オープンソース/プラットフォーム/C#/java/swift/objective-c/php/javaScript/デッドロック/フレームワーク/CAD/HTML/ワールドワイドウェブ/グラボ/マークダウン/emacs/Unix/Linux
+
+該当するエンジニア用語はSystem.html中のekeywordsに正規表現で追記することで、増やせます。
+## 注意事項
+- このシステムはGoogleChromeでしか動作しません。（WebSpeechAPIがChromeにしか対応していないため）
+- SkyWayとBingSearchAPIに関しては各自APIキーを取得してください。
+	* SkyWay:videochat.jsに記述
+	* BingSearchAPI:Search.phpに記述
+- まだ実用的な会話速度では認識しにくいのでゆっくりと話してください。
