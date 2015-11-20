@@ -42,7 +42,7 @@
 					"/Search.php",
 					{
 						"method":"get",
-						"parameters":"word="+document.search.word.value,
+						"parameters":"word="+document.search.word.value+"%20wiki",
 						onFailure: function(request){
 							alert('読み込みに失敗しました');
 						},
@@ -88,7 +88,12 @@
 						<input type="button" value="音声認識開始" onclick="recognition.start();"/>
 						<input type="button" value="音声認識終了" onclick="recognition.stop();"/>
 						<div id="state">停止中</div>
-						<div id="recognizedText"></div>
+						<!-- <div id="recognizedText"></div> -->
+						<div>
+							<TEXTAREA id="recognizedText" cols="80" rows="20" readonly></TEXTAREA>
+						</div>
+
+						
 					</div>
 				</div>
 			</div>
@@ -130,11 +135,10 @@
 		var results = event.results;
 		for(var i = event.resultIndex; i<results.length; i++){
 			if(results[i].isFinal){
-				j$("#recognizedText").text(results[i][0].transcript);
+				j$("#recognizedText").text(results[i][0].transcript+"\n"+j$("#recognizedText").val());
 				document.search.word.value = results[i][0].transcript;
 				execute();
 			}else{
-				j$("#recognizedText").text(results[i][0].transcript);
 			}
 		}
 	};
