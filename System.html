@@ -2,55 +2,141 @@
 	<head>
 		<title>RealtimeVideo</title>
 		<meta charset="utf-8">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.7.0.0/prototype.js"></script>
+
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="https://skyway.io/dist/v2/0.3/peer.js"></script>
+
+		<script type="text/javascript">
+			jQuery.noConflict();
+			var j$ = jQuery;
+		</script>
+		<script type="text/javascript" src="videochat.js"></script>
+		<style type="text/css">
+			div.all{
+				overflow: hidden;
+			}
+			div.blocka{
+				float: left;
+				width: 50%;
+				overflow: hidden;
+			}
+			div.blockb{
+				float: right;
+				width: 50%;
+				overflow: auto;
+			}
+			div.video{
+				overflow: auto;
+			}
+			div.textlog{
+				overflow: auto;
+			}
+		</style>
+
+		<script type="text/javascript">
+			var myajax;
+			function execute(){
+				myajax = new Ajax.Updater(
+					"container",
+					"/Search.php",
+					{
+						"method":"get",
+						"parameters":"word="+document.search.word.value,
+						onFailure: function(request){
+							alert('読み込みに失敗しました');
+						},
+						onException: function(request){
+							alert('エラー');
+						}
+					}
+				);
+			}
+
+		</script>
+
+
 	</head>
+
 	<body>
-		<form name="search" action="Search.php" method="get">
-			<input type="hidden" name="word" id="word" value="反応なし">
-		</form>
-		<input type="button" value="音声認識開始" onclick="recognition.start();"/>
-		<input type="button" value="音声認識終了" onclick="recognition.stop();"/>
-		<div id="state">停止中</div>
-		<div id="recognizedText"></div>
+		<div class="all">
+		<div class="blocka">
+			<div style="width:100%; height:100%;">
+				<div class="video">
+					<div style="width:100%; height:50%;">
+						<div>
+						<video id="peer-video" style="width: 400px;" autoplay></video>
+						<video id="my-video" style="width: 100px;" autoplay muted></video>
+						</div>
+						<div>
+							<p>MyID: <span id="my-id">-</span></p>
+							<p>PeerID: <span id="peer-id">-</span></p>
+						</div>
+						<div>
+							<input type="text" placeholder="PeerID" id="peer-id-input">
+							<button id="call-start">Start Call</button>
+							<button id="call-end">End Call</button>
+						</div>
+
+					</div>
+				</div>
+				<div class="textlog">
+					<div style="width:100%; height:50%;">
+						<form name="search" method="get">
+							<input type="hidden" name="word" id="word" value="反応なし">
+						</form>
+						<input type="button" value="音声認識開始" onclick="recognition.start();"/>
+						<input type="button" value="音声認識終了" onclick="recognition.stop();"/>
+						<div id="state">停止中</div>
+						<div id="recognizedText"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="blockb">
+			<div style="width:100%; height:100%;">
+				<div id="container"></div>
+			</div>
+		</div>
+	</div>
+
 	</body>
 </html>
 
 <script>
-var recognition = new webkitSpeechRecognition();
-recognition.lang = "ja-JP";
-recognition.interimResults = true;
-recognition.continuous = true;
+	var recognition = new webkitSpeechRecognition();
+	recognition.lang = "ja-JP";
+	recognition.interimResults = true;
+	recognition.continuous = true;
 
-//話し声の認識中
-recognition.onsoundstart = function(){
-	$("#state").text("認識中");
-};
-//マッチする認識なし
-recognition.onnomatch = function(){
-	$("#recognizedText").text("もう一度試してください");
-};
-//エラー
-recognition.onerror = function(){
-	$("#recognizedText").text("エラー");
-};
-//話し声の認識終了
-recognition.onsoundend = function(){
-	$("#state").text("停止中");
-};
-//認識が終了したときのイベント
-recognition.onresult = function(event){
-	var results = event.results;
-	for(var i = event.resultIndex; i<results.length; i++){
-		if(results[i].isFinal){
-			$("#recognizedText").text(results[i][0].transcript);
-			document.search.submit();
-		}else{
-			$("#recognizedText").text(results[i][0].transcript);
+	//話し声の認識中
+	recognition.onsoundstart = function(){
+		j$("#state").text("認識中");
+	};
+	//マッチする認識なし
+	recognition.onnomatch = function(){
+		j$("#recognizedText").text("もう一度試してください");
+	};
+	//エラー
+	recognition.onerror = function(){
+		j$("#recognizedText").text("エラー");
+	};
+	//話し声の認識終了
+	recognition.onsoundend = function(){
+		j$("#state").text("停止中");
+	};
+	//認識が終了したときのイベント
+	recognition.onresult = function(event){
+		var results = event.results;
+		for(var i = event.resultIndex; i<results.length; i++){
+			if(results[i].isFinal){
+				j$("#recognizedText").text(results[i][0].transcript);
+				document.search.word.value = results[i][0].transcript;
+				execute();
+			}else{
+				j$("#recognizedText").text(results[i][0].transcript);
+			}
 		}
-
-	}
-	document.search.word.value = results[0][0].transcript;
-};
-
+	};
 </script>
 

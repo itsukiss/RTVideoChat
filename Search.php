@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 </head>
 <body>
-<?php 
+<?php
+if($_GET['word']){
 $query = $_GET['word'];
-echo $query;
+// echo $query;
 //$query = 'ご飯';
 
 
@@ -29,7 +30,7 @@ $url = $arr["d"]["results"][0]["Url"];
 //echo $response;
 $html = file_get_contents($url);
 echo $html;
-
+}
 ?>
 </body>
 </html>

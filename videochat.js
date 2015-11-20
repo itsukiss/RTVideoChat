@@ -12,7 +12,7 @@ peer.on('open', function(){
 	// 自分のIDを表示する
 	// - 自分のIDはpeerオブジェクトのidプロパティに存在する
 	// - 相手はこのIDを指定することで、通話を開始することができる
-	$('#my-id').text(peer.id);
+	j$('#my-id').text(peer.id);
 });
 
 peer.on('error', function(e){
@@ -28,7 +28,7 @@ peer.on('call', function(call){
 
 // 相手のIDを表示する
 // - 相手のIDはCallオブジェクトのpeerプロパティに存在する
-$("#peer-id").text(call.peer);
+j$("#peer-id").text(call.peer);
 
 // 自分の映像ストリームを相手に渡す
 // - getUserMediaで取得したストリームオブジェクトを指定する
@@ -43,13 +43,13 @@ call.on('stream', function(stream){
 	var url = URL.createObjectURL(stream);
 
 	// video要素のsrcに設定することで、映像を表示する
-	$('#peer-video').prop('src', url);
+	j$('#peer-video').prop('src', url);
 });
 });
 
 // DOM要素の構築が終わった場合に呼ばれるイベント
 // - DOM要素に結びつく設定はこの中で行なう
-$(function() {
+j$(function() {
 
 	// カメラ／マイクのストリームを取得する
 	// - 取得が完了したら、第二引数のFunctionが呼ばれる。呼び出し時の引数は自身の映像ストリーム
@@ -64,15 +64,15 @@ $(function() {
 		var url = URL.createObjectURL(stream);
 
 		// video要素のsrcに設定することで、映像を表示する
-		$('#my-video').prop('src', url);
+		j$('#my-video').prop('src', url);
 
 	}, function() { alert("Error!"); });
 
 	// Start Callボタンクリック時の動作
-	$('#call-start').click(function(){
+	j$('#call-start').click(function(){
 
 		// 接続先のIDをフォームから取得する
-		var peer_id = $('#peer-id-input').val();
+		var peer_id = j$('#peer-id-input').val();
 
 		// 相手と通話を開始して、自分のストリームを渡す
 		var call = peer.call(peer_id, localStream);
@@ -81,19 +81,19 @@ $(function() {
 		// - 渡されるstreamオブジェクトは相手の映像についてのストリームオブジェクト
 		call.on('stream', function(stream){
 			// 相手のIDを表示する
-			$("#peer-id").text(call.peer);
+			j$("#peer-id").text(call.peer);
 
 			// 映像ストリームオブジェクトをURLに変換する
 			// - video要素に表示できる形にするため変換している
 			var url = URL.createObjectURL(stream);
 
 			// video要素のsrcに設定することで、映像を表示する
-			$('#peer-video').prop('src', url);
+			j$('#peer-video').prop('src', url);
 		});
 	});
 
 	// End　Callボタンクリック時の動作
-	$('#call-end').click(function(){
+	j$('#call-end').click(function(){
 		// ビデオ通話を終了する
 		connectedCall.close();
 	});
