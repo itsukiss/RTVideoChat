@@ -10,7 +10,7 @@ $query = $_GET['word'];
 // echo $query;
 //$query = 'ご飯';
 
-
+//BingSearchAPIのキーを指定する
 $accountKey = '5hj8WLaVWT33WCk04XwcZ0UFI8GLZLGuFXntSZUWwuA';
 $ServiceRootURL = 'https://api.datamarket.azure.com/Bing/Search/v1/';
 
