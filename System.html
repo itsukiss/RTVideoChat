@@ -90,7 +90,7 @@
 						<div id="state">停止中</div>
 						<!-- <div id="recognizedText"></div> -->
 						<div>
-							<TEXTAREA id="recognizedText" cols="80" rows="20" readonly></TEXTAREA>
+							<TEXTAREA id="recognizedText" cols="80" rows="20" readonly style="font-size:150%;"></TEXTAREA>
 						</div>
 
 						
@@ -109,6 +109,7 @@
 </html>
 
 <script>
+	var ekeywords = [/サーバーサイド/i,/サーバサイド/i,/クライアントサイド/i,/フロントエンド/i,/b to b/i,/b to c/i,/p2p/i,/スニペット/i,/web rtc/i,/インフラ/i,/オープンデータ/i,/オープンソース/i,/プラットフォーム/i,/プラットホーム/i,/C#/i,/java/i,/swift/i,/スイフト/i,/objective-c/i,/php/i,/javaScript/i,/Deadlock/i,/デッドロック/i,/フレームワーク/i,/CAD/i,/HTML/i,/ワールドワイドウェブ/i,/world wide web/i,/グラボ/i,/マークダウン/i,/markdown/i,/emacs/i,/イーマックス/i,/Unix/i,/Linux/i,/Delight and Impact the World/i];
 	var recognition = new webkitSpeechRecognition();
 	recognition.lang = "ja-JP";
 	recognition.interimResults = true;
@@ -136,8 +137,12 @@
 		for(var i = event.resultIndex; i<results.length; i++){
 			if(results[i].isFinal){
 				j$("#recognizedText").text(results[i][0].transcript+"\n"+j$("#recognizedText").val());
-				document.search.word.value = results[i][0].transcript;
-				execute();
+				for(var j = 0;j < ekeywords.length; j++){
+				if(results[i][0].transcript.match(ekeywords[j])){
+					document.search.word.value = ekeywords[j];
+					execute();
+				}
+			}
 			}else{
 			}
 		}
